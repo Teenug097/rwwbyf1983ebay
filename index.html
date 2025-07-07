@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Claim Your YouTube Premium Upgrade</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 2em auto;
+      padding: 2em;
+      background: #f7f7f7;
+      border-radius: 10px;
+    }
+    .hidden { display: none; }
+    label { display: block; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1>Claim Your YouTube Premium Upgrade</h1>
+  <p>Please complete this form to confirm you're the correct buyer and to receive your digital code.</p>
+
+  <!-- Verification form -->
+  <form id="verify-form">
+    <label>
+      eBay Username:
+      <input type="text" id="username" required>
+    </label>
+    <label>
+      eBay Item Number:
+      <input type="text" id="itemnumber" required placeholder="297442443253">
+    </label>
+    <label>
+      Access Code (from eBay message):
+      <input type="text" id="accesscode" required>
+    </label>
+    <button type="submit">Verify</button>
+  </form>
+
+  <!-- Code and confirmation section -->
+  <div id="claim-section" class="hidden">
+    <h2>✅ Verified!</h2>
+    <p>Your YouTube Premium code is:</p>
+    <p><strong id="digital-code">PREMIUM-UPGRADE-CODE-123</strong></p>
+
+    <form
+      action="https://formspree.io/f/mdkzrkap"
+      method="POST"
+    >
+      <input type="hidden" name="username" id="receipt-username">
+      <input type="hidden" name="itemnumber" id="receipt-item">
+      
+      <label><input type="checkbox" name="confirmedIdentity" required> I am the eBay buyer for this item.</label>
+      <label><input type="checkbox" name="confirmedReceived" required> I have received the digital code.</label>
+      <label><input type="checkbox" name="confirmedAcceptance" required> I accept delivery and consider this transaction complete.</label><br><br>
+      
+      <button type="submit">Confirm and Send Receipt</button>
+    </form>
+  </div>
+
+  <script>
+    const verifyForm = document.getElementById('verify-form');
+    const claimSection = document.getElementById('claim-section');
+    const receiptUsername = document.getElementById('receipt-username');
+    const receiptItem = document.getElementById('receipt-item');
+
+    verifyForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const item = document.getElementById('itemnumber').value.trim();
+      const code = document.getElementById('accesscode').value.trim();
+
+      const expectedItem = "297442443253";
+      const expectedAccessCode = "ytpremium2024"; // ← you control this! send it via eBay message
+
+      if (item === expectedItem && code === expectedAccessCode) {
+        receiptUsername.value = user;
+        receiptItem.value = item;
+        verifyForm.classList.add('hidden');
+        claimSection.classList.remove('hidden');
+      } else {
+        alert("Verification failed. Please check your item number and access code.");
+      }
+    });
+  </script>
+</body>
+</html>
