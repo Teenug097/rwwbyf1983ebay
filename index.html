@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Claim Your 1 Month PC Game Pass eBay Purchase</title>
+  <title>Claim Your 1 Month PC Game Pass</title>
   <meta charset="UTF-8" />
   <style>
     body {
@@ -35,7 +35,7 @@
 </head>
 <body>
   <h1>Claim Your 1 Month PC Game Pass (New Users Only)</h1>
-  <p>To unlock your digital code, please verify your purchase and confirm receipt. This step is required to protect both buyer and seller.</p>
+  <p>To unlock your digital code, please verify your purchase and confirm receipt. This step protects both buyer and seller.</p>
 
   <!-- Verification form -->
   <form id="verify-form">
@@ -59,11 +59,7 @@
     <h2>✅ Verified</h2>
     <p>Before the code is revealed, please confirm the following:</p>
 
-    <form
-      action="https://formspree.io/f/mdkzrkap"
-      method="POST"
-      id="confirm-form"
-    >
+    <form id="confirm-form">
       <input type="hidden" name="username" id="receipt-username">
       <input type="hidden" name="itemnumber" id="receipt-item">
       
@@ -117,10 +113,29 @@
     });
 
     confirmForm.addEventListener('submit', function(e) {
-      setTimeout(() => {
-        confirmForm.classList.add('hidden');
-        codeSection.classList.remove('hidden');
-      }, 300);
+      e.preventDefault(); // prevent default redirect
+
+      const formData = new FormData(confirmForm);
+
+      fetch("https://formspree.io/f/mdkzrkap", {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          confirmForm.classList.add('hidden');
+          codeSection.classList.remove('hidden');
+        } else {
+          alert("Error submitting confirmation. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Form submission error:", error);
+        alert("Something went wrong. Please try again later.");
+      });
     });
   </script>
 </body>
