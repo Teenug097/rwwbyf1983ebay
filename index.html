@@ -41,7 +41,7 @@
   <form id="verify-form">
     <label>
       Your eBay Username:
-      <input type="text" id="username" required>
+      <input type="text" id="username" required placeholder="ebaybuyer">
     </label>
     <label>
       eBay Item Number:
@@ -95,12 +95,18 @@
 
     verifyForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const user = document.getElementById('username').value.trim();
+      const user = document.getElementById('username').value.trim().toLowerCase();
       const item = document.getElementById('itemnumber').value.trim();
       const code = document.getElementById('accesscode').value.trim();
 
+      const expectedUsername = "ebaybuyer";
       const expectedItem = "297442443253";
       const expectedAccessCode = "-n##wc2-Vk/D:b{>";
+
+      if (user !== expectedUsername.toLowerCase()) {
+        alert("eBay username does not match the buyer. Access denied.");
+        return;
+      }
 
       if (item === expectedItem && code === expectedAccessCode) {
         receiptUsername.value = user;
@@ -113,7 +119,7 @@
     });
 
     confirmForm.addEventListener('submit', function(e) {
-      e.preventDefault(); // prevent default redirect
+      e.preventDefault();
 
       const formData = new FormData(confirmForm);
 
