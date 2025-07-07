@@ -24,11 +24,18 @@
       margin-top: 1em;
       display: inline-block;
     }
+    footer {
+      margin-top: 3em;
+      font-size: 0.85em;
+      color: #555;
+      border-top: 1px solid #ccc;
+      padding-top: 1em;
+    }
   </style>
 </head>
 <body>
   <h1>Claim Your 1 Month PC Game Pass (New Users Only)</h1>
-  <p>To unlock your code, please verify your eBay purchase and confirm receipt.</p>
+  <p>To unlock your digital code, please verify your purchase and confirm receipt. This step is required to protect both buyer and seller.</p>
 
   <!-- Verification form -->
   <form id="verify-form">
@@ -38,7 +45,7 @@
     </label>
     <label>
       eBay Item Number:
-      <input type="text" id="itemnumber" required placeholder="297442443253">
+      <input type="text" id="itemnumber" required placeholder="EBAY ITEM NUMBER">
     </label>
     <label>
       Access Code (from eBay message):
@@ -50,7 +57,7 @@
   <!-- Confirmation + code section -->
   <div id="claim-section" class="hidden">
     <h2>✅ Verified</h2>
-    <p>To receive your Game Pass code, please confirm the following:</p>
+    <p>Before the code is revealed, please confirm the following:</p>
 
     <form
       action="https://formspree.io/f/mdkzrkap"
@@ -63,6 +70,7 @@
       <label><input type="checkbox" name="confirmedIdentity" required> I am the eBay buyer for this item.</label>
       <label><input type="checkbox" name="confirmedReceived" required> I confirm I have received the digital item and accept delivery.</label>
       <label><input type="checkbox" name="confirmedAcceptance" required> I understand this transaction is now complete.</label>
+      <label><input type="checkbox" name="noRefundPolicy" required> I understand this code is one-time use and non-refundable once revealed.</label>
 
       <button type="submit">Confirm and View Code</button>
     </form>
@@ -72,8 +80,14 @@
   <div id="code-section" class="hidden">
     <h2>🎉 Your PC Game Pass Code</h2>
     <div class="code-box">F2HGT-YXT7Q-QH32D-QYM34-VYQ4Z</div>
-    <p><strong>Note:</strong> This code is for new users only. Enjoy!</p>
+    <p><strong>Note:</strong> This code is valid for new users only. Please redeem it immediately.</p>
   </div>
+
+  <footer>
+    By submitting this form, you acknowledge receipt of the digital item and accept the item as delivered.  
+    Codes are one-time use, final sale, and cannot be replaced or refunded once revealed.  
+    Attempts to falsely claim non-delivery may be reported to eBay for misuse of the platform.
+  </footer>
 
   <script>
     const verifyForm = document.getElementById('verify-form');
@@ -103,7 +117,6 @@
     });
 
     confirmForm.addEventListener('submit', function(e) {
-      // Allow Formspree to send email, then show the code
       setTimeout(() => {
         confirmForm.classList.add('hidden');
         codeSection.classList.remove('hidden');
