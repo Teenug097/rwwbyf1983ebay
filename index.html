@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Claim: 1 Month PC Game Pass | New User Only - Digital Code Onlytitle>
+  <title>Claim Your 1 Month PC Game Pass</title>
   <meta charset="UTF-8" />
   <style>
     body {
@@ -14,16 +14,26 @@
     }
     .hidden { display: none; }
     label { display: block; margin-top: 1em; }
+    button { margin-top: 1em; }
+    .code-box {
+      font-weight: bold;
+      font-size: 1.2em;
+      background: #fff;
+      border: 1px dashed #aaa;
+      padding: 10px;
+      margin-top: 1em;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
-  <h1>Claim Your 1 Month PC Game Pass | New User Only - Digital Code Only</h1>
-  <p>Please complete this form to confirm you're the correct buyer and to receive your digital code.</p>
+  <h1>Claim Your 1 Month PC Game Pass (New Users Only)</h1>
+  <p>To unlock your code, please verify your eBay purchase and confirm receipt.</p>
 
   <!-- Verification form -->
   <form id="verify-form">
     <label>
-      eBay Username:
+      Your eBay Username:
       <input type="text" id="username" required>
     </label>
     <label>
@@ -34,28 +44,35 @@
       Access Code (from eBay message):
       <input type="text" id="accesscode" required>
     </label>
-    <button type="submit">Verify</button>
+    <button type="submit">Verify and Confirm Receipt</button>
   </form>
 
-  <!-- Code and confirmation section -->
+  <!-- Confirmation + code section -->
   <div id="claim-section" class="hidden">
-    <h2>✅ Verified!</h2>
-    <p>Your YouTube Premium code is:</p>
-    <p><strong id="digital-code">PREMIUM-UPGRADE-CODE-123</strong></p>
+    <h2>✅ Verified</h2>
+    <p>To receive your Game Pass code, please confirm the following:</p>
 
     <form
       action="https://formspree.io/f/mdkzrkap"
       method="POST"
+      id="confirm-form"
     >
       <input type="hidden" name="username" id="receipt-username">
       <input type="hidden" name="itemnumber" id="receipt-item">
       
       <label><input type="checkbox" name="confirmedIdentity" required> I am the eBay buyer for this item.</label>
-      <label><input type="checkbox" name="confirmedReceived" required> I have received the digital code.</label>
-      <label><input type="checkbox" name="confirmedAcceptance" required> I accept delivery and consider this transaction complete.</label><br><br>
-      
-      <button type="submit">Confirm and Send Receipt</button>
+      <label><input type="checkbox" name="confirmedReceived" required> I confirm I have received the digital item and accept delivery.</label>
+      <label><input type="checkbox" name="confirmedAcceptance" required> I understand this transaction is now complete.</label>
+
+      <button type="submit">Confirm and View Code</button>
     </form>
+  </div>
+
+  <!-- Code display -->
+  <div id="code-section" class="hidden">
+    <h2>🎉 Your PC Game Pass Code</h2>
+    <div class="code-box">F2HGT-YXT7Q-QH32D-QYM34-VYQ4Z</div>
+    <p><strong>Note:</strong> This code is for new users only. Enjoy!</p>
   </div>
 
   <script>
@@ -63,6 +80,8 @@
     const claimSection = document.getElementById('claim-section');
     const receiptUsername = document.getElementById('receipt-username');
     const receiptItem = document.getElementById('receipt-item');
+    const confirmForm = document.getElementById('confirm-form');
+    const codeSection = document.getElementById('code-section');
 
     verifyForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -71,7 +90,7 @@
       const code = document.getElementById('accesscode').value.trim();
 
       const expectedItem = "297442443253";
-      const expectedAccessCode = "\oTubUY^+$;C]FBn"; // ← you control this! send it via eBay message
+      const expectedAccessCode = "-n##wc2-Vk/D:b{>";
 
       if (item === expectedItem && code === expectedAccessCode) {
         receiptUsername.value = user;
@@ -79,8 +98,16 @@
         verifyForm.classList.add('hidden');
         claimSection.classList.remove('hidden');
       } else {
-        alert("Verification failed. Please check your item number and access code.");
+        alert("Verification failed. Please double-check your item number and access code.");
       }
+    });
+
+    confirmForm.addEventListener('submit', function(e) {
+      // Allow Formspree to send email, then show the code
+      setTimeout(() => {
+        confirmForm.classList.add('hidden');
+        codeSection.classList.remove('hidden');
+      }, 300);
     });
   </script>
 </body>
